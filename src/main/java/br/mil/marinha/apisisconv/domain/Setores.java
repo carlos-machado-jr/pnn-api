@@ -1,14 +1,48 @@
 package br.mil.marinha.apisisconv.domain;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-public class Setores {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+@Audited
+@AuditTable("setores_audit")
+public class Setores implements Serializable{
 	
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long set_Id;
+	
 	private String set_Descricao;
 	private Boolean set_Status;
-	private Date set_CreatedAt;
+	
+	
+	private Date set_Createdat;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "setores")
+	private List<Ramais> ramais;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "setores")
+	private List<Proprietarios> proprietarios;
 	
 	
 	public Setores() {
@@ -47,14 +81,36 @@ public class Setores {
 
 
 	public Date getSet_CreatedAt() {
-		return set_CreatedAt;
+		return set_Createdat;
 	}
 
 
 	public void setSet_CreatedAt(Date set_CreatedAt) {
-		this.set_CreatedAt = set_CreatedAt;
+		this.set_Createdat = set_CreatedAt;
 	}
+
+
+	public List<Ramais> getRamais() {
+		return ramais;
+	}
+
+
+	public void setRamais(List<Ramais> ramais) {
+		this.ramais = ramais;
+	}
+
+
+	public List<Proprietarios> getProprietarios() {
+		return proprietarios;
+	}
+
+
+	public void setProprietarios(List<Proprietarios> proprietarios) {
+		this.proprietarios = proprietarios;
+	}
+
 	
+		
 	
 	
 }
