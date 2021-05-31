@@ -1,20 +1,48 @@
 package br.mil.marinha.apisisconv.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Proprietarios {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
+
+@Entity
+@Audited
+@AuditTable("proprietarios_audit")
+public class Proprietarios implements Serializable{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pro_Id;
+	
 	private String pro_Nome;
 	private String pro_NipCpf;
 	private String pro_Email;
 	private String pro_Cnh;
-	private Date pro_CreatedAt;
 	
+	private Date pro_Createdat;
 	
+	@ManyToOne
+	@JoinColumn(name = "pro_Posto_Id")
 	private PostoGraduacoes postoGraduacoes;
+
+	@ManyToOne
+	@JoinColumn(name = "pro_Setor_Id")
 	private Setores setores;
+	
 	private Boolean pro_Status;
 	private String pro_Observacao;
 	
@@ -63,11 +91,11 @@ public class Proprietarios {
 	}
 
 	public Date getPro_CreatedAt() {
-		return pro_CreatedAt;
+		return pro_Createdat;
 	}
 
 	public void setPro_CreatedAt(Date pro_CreatedAt) {
-		this.pro_CreatedAt = pro_CreatedAt;
+		this.pro_Createdat = pro_CreatedAt;
 	}
 
 	public PostoGraduacoes getPostoGraduacoes() {
