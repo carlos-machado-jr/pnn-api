@@ -1,29 +1,48 @@
 package br.mil.marinha.apisisconv.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Telefones {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+@Audited
+@AuditTable("telefones_audit")
+public class Telefones implements Serializable{
 
 	
-/*
- *   `tel_Id` int(4) primary key AUTO_INCREMENT NOT NULL,
-  `tel_Tipo` varchar(6) NOT NULL,
-  `tel_DDD` varchar(12) NOT NULL,
-  `tel_Numero` varchar(12) NOT NULL,
-  `tel_Status` TINYINT(1) not null,
-  `tel_Pro_Id` varchar(250),
-  `tel_CreatedAt` date NOT NULL
-  */
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long tel_Id;
+	
 	private String tel_Tipo;
 	private String tel_DDD;
 	private String tel_Numero;
 	private Boolean tel_Status;
 	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "tel_Pro_Id")
 	private Proprietarios proprietarios;
-	private Date tel_CreatedAt;
+	
+	
+	private Date tel_Createdat;
 	
 	public Telefones() {
 		// TODO Auto-generated constructor stub
@@ -78,12 +97,74 @@ public class Telefones {
 	}
 
 	public Date getTel_CreatedAt() {
-		return tel_CreatedAt;
+		return tel_Createdat;
 	}
 
 	public void setTel_CreatedAt(Date tel_CreatedAt) {
-		this.tel_CreatedAt = tel_CreatedAt;
+		this.tel_Createdat = tel_CreatedAt;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((proprietarios == null) ? 0 : proprietarios.hashCode());
+		result = prime * result + ((tel_Createdat == null) ? 0 : tel_Createdat.hashCode());
+		result = prime * result + ((tel_DDD == null) ? 0 : tel_DDD.hashCode());
+		result = prime * result + ((tel_Id == null) ? 0 : tel_Id.hashCode());
+		result = prime * result + ((tel_Numero == null) ? 0 : tel_Numero.hashCode());
+		result = prime * result + ((tel_Status == null) ? 0 : tel_Status.hashCode());
+		result = prime * result + ((tel_Tipo == null) ? 0 : tel_Tipo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Telefones other = (Telefones) obj;
+		if (proprietarios == null) {
+			if (other.proprietarios != null)
+				return false;
+		} else if (!proprietarios.equals(other.proprietarios))
+			return false;
+		if (tel_Createdat == null) {
+			if (other.tel_Createdat != null)
+				return false;
+		} else if (!tel_Createdat.equals(other.tel_Createdat))
+			return false;
+		if (tel_DDD == null) {
+			if (other.tel_DDD != null)
+				return false;
+		} else if (!tel_DDD.equals(other.tel_DDD))
+			return false;
+		if (tel_Id == null) {
+			if (other.tel_Id != null)
+				return false;
+		} else if (!tel_Id.equals(other.tel_Id))
+			return false;
+		if (tel_Numero == null) {
+			if (other.tel_Numero != null)
+				return false;
+		} else if (!tel_Numero.equals(other.tel_Numero))
+			return false;
+		if (tel_Status == null) {
+			if (other.tel_Status != null)
+				return false;
+		} else if (!tel_Status.equals(other.tel_Status))
+			return false;
+		if (tel_Tipo == null) {
+			if (other.tel_Tipo != null)
+				return false;
+		} else if (!tel_Tipo.equals(other.tel_Tipo))
+			return false;
+		return true;
+	}
+
 	
 	
 	
