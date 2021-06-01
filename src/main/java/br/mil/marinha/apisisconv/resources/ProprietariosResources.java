@@ -21,6 +21,9 @@ public class ProprietariosResources {
 	@Autowired
 	ProprietariosServices service;
 	
+	@Autowired
+	VeiculosResources veiculoResource;
+	
 	@GetMapping
 	public ResponseEntity<List<ProprietariosDTO>> findAll(){
 		List<Proprietarios> p = service.findAll();
@@ -38,11 +41,21 @@ public class ProprietariosResources {
 	
 	
 	private List<ProprietariosDTO> createDtoList(List<Proprietarios> proprietarios){
-		return proprietarios.stream().map(p -> new ProprietariosDTO(p.getPro_Id(), p.getPro_Nome(), p.getPro_NipCpf(), p.getPro_Email(), p.getPro_Cnh(), p.getPro_Createdat(), p.getPostoGraduacoes(), p.getSetores(), p.getTelefones(), p.getPro_Status(), p.getPro_Observacao()))
-					 .collect(Collectors.toList());	
+		return proprietarios.stream().map(p -> createDto(p)).collect(Collectors.toList());	
 	}
 	
 	private ProprietariosDTO createDto(Proprietarios p) {
-		return new ProprietariosDTO(p.getPro_Id(), p.getPro_Nome(), p.getPro_NipCpf(), p.getPro_Email(), p.getPro_Cnh(), p.getPro_Createdat(), p.getPostoGraduacoes(), p.getSetores(), p.getTelefones(), p.getPro_Status(), p.getPro_Observacao());
+		return new ProprietariosDTO(p.getPro_Id(), 
+									p.getPro_Nome(), 
+									p.getPro_NipCpf(), 
+									p.getPro_Email(), 
+									p.getPro_Cnh(), 
+									p.getPro_Createdat(), 
+									p.getPostoGraduacoes(), 
+									p.getSetores(), 
+									p.getTelefones(),
+									veiculoResource.createDtoList(p.getVeiculos()), 
+									p.getPro_Status(), 
+									p.getPro_Observacao());
 	}
 }

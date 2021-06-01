@@ -37,12 +37,21 @@ public class VeiculosResources {
 	
 	
 	
-	private List<VeiculosDTO> createDtoList(List<Veiculos> veiculos){
-		return veiculos.stream().map(v -> new VeiculosDTO(v.getVei_Id(), v.getVei_Modelo(), v.getVei_Ano(), v.getVei_Placa(), v.getVei_Cor(), v.getTipo_Veiculos(), v.getMontadoras(), v.getVei_Status(), v.getVei_Createdat(), v.getVei_Observacao()))
+	protected List<VeiculosDTO> createDtoList(List<Veiculos> veiculos){
+		return veiculos.stream().map(v -> createDto(v))
 					 .collect(Collectors.toList());	
 	}
 	
-	private VeiculosDTO createDto(Veiculos v) {
-		return new VeiculosDTO(v.getVei_Id(), v.getVei_Modelo(), v.getVei_Ano(), v.getVei_Placa(), v.getVei_Cor(), v.getTipo_Veiculos(), v.getMontadoras(), v.getVei_Status(), v.getVei_Createdat(), v.getVei_Observacao());
+	protected VeiculosDTO createDto(Veiculos v) {
+		return new VeiculosDTO(v.getVei_Id(), 
+							   v.getVei_Modelo(), 
+							   v.getVei_Ano(), 
+							   v.getVei_Placa(), 
+							   v.getVei_Cor(),
+							   v.getTipo_Veiculos(), 
+							   v.getMontadoras(), 
+							   v.getVei_Status(), 
+							   v.getVei_Createdat(), 
+							   v.getVei_Observacao());
 	}
 }

@@ -19,12 +19,13 @@ public class ProprietariosDTO {
 	private String posto;
 	private String setor;
 	private List<Telefones> telefones;
+	private List<VeiculosDTO> veiculos;
 	
 	private String status;
 	private String observacao;
 	
 	public ProprietariosDTO(Long id, String nome, String nipCpf, String email, String cnh, Date dataCriacao,
-			PostoGraduacoes posto, Setores setor, List<Telefones> telefones, Boolean status, String observacao) {
+			PostoGraduacoes posto, Setores setor, List<Telefones> telefones, List<VeiculosDTO> veiculos, Boolean status, String observacao) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -35,6 +36,7 @@ public class ProprietariosDTO {
 		this.posto = posto.getPog_Descricao();
 		this.setor = setor.getSet_Descricao();
 		this.telefones = telefones;
+		this.veiculos = veiculos;
 		this.status = status ? "Ativado" : "Desativado";
 		this.observacao = observacao;
 	}
@@ -111,6 +113,16 @@ public class ProprietariosDTO {
 
 	public void setTelefones(List<Telefones> telefones) {
 		this.telefones = telefones;
+	}
+	
+	
+
+	public List<VeiculosDTO> getVeiculos() {
+		return veiculos;
+	}
+
+	public void setVeiculos(List<VeiculosDTO> veiculos) {
+		this.veiculos = veiculos;
 	}
 
 	public String getStatus() {
