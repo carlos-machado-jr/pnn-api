@@ -109,6 +109,63 @@ public class Setores implements Serializable{
 		this.proprietarios = proprietarios;
 	}
 
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((proprietarios == null) ? 0 : proprietarios.hashCode());
+		result = prime * result + ((ramais == null) ? 0 : ramais.hashCode());
+		result = prime * result + ((set_Createdat == null) ? 0 : set_Createdat.hashCode());
+		result = prime * result + ((set_Descricao == null) ? 0 : set_Descricao.hashCode());
+		result = prime * result + ((set_Id == null) ? 0 : set_Id.hashCode());
+		result = prime * result + ((set_Status == null) ? 0 : set_Status.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Setores other = (Setores) obj;
+		if (proprietarios == null) {
+			if (other.proprietarios != null)
+				return false;
+		} else if (!proprietarios.equals(other.proprietarios))
+			return false;
+		if (ramais == null) {
+			if (other.ramais != null)
+				return false;
+		} else if (!ramais.equals(other.ramais))
+			return false;
+		if (set_Createdat == null) {
+			if (other.set_Createdat != null)
+				return false;
+		} else if (!set_Createdat.equals(other.set_Createdat))
+			return false;
+		if (set_Descricao == null) {
+			if (other.set_Descricao != null)
+				return false;
+		} else if (!set_Descricao.equals(other.set_Descricao))
+			return false;
+		if (set_Id == null) {
+			if (other.set_Id != null)
+				return false;
+		} else if (!set_Id.equals(other.set_Id))
+			return false;
+		if (set_Status == null) {
+			if (other.set_Status != null)
+				return false;
+		} else if (!set_Status.equals(other.set_Status))
+			return false;
+		return true;
+	}
+
 	
 		
 	

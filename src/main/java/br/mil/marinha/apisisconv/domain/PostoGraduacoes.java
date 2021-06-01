@@ -2,6 +2,7 @@ package br.mil.marinha.apisisconv.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,10 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Audited
@@ -43,6 +47,10 @@ public class PostoGraduacoes implements Serializable {
 	
 	
 	private Date pog_CreatedAt;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "postoGraduacoes")
+	private List<Proprietarios> proprietarios;
 	
 	public PostoGraduacoes() {
 		// TODO Auto-generated constructor stub
@@ -100,6 +108,17 @@ public class PostoGraduacoes implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	
+	
+
+	public List<Proprietarios> getProprietarios() {
+		return proprietarios;
+	}
+
+	public void setProprietarios(List<Proprietarios> proprietarios) {
+		this.proprietarios = proprietarios;
 	}
 
 	@Override
