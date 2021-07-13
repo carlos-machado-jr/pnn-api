@@ -1,9 +1,9 @@
 package br.mil.marinha.apisisconv.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,10 +32,11 @@ public class PostoGraduacoes implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long pog_Id;
+	@Column(columnDefinition = "bigInt", name = "pog_Id")
+	private Long id;
 	
-	
-	private String pog_Descricao;
+	@Column(columnDefinition = "varchar(50)", name = "pog_Descricao", nullable = false)
+	private String description;
 	
 	@ManyToOne
 	@JoinColumn(name = "pog_Categoria_Id")
@@ -46,7 +47,8 @@ public class PostoGraduacoes implements Serializable {
 	private ForcasMilitares forcaMilitares;
 	
 	
-	private Date pog_CreatedAt;
+	@Column(columnDefinition = "datetime", name = "pog_CreatedAt", nullable = false)
+	private String createdAt;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "postoGraduacoes")
@@ -56,30 +58,20 @@ public class PostoGraduacoes implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PostoGraduacoes(Long pog_Id, String pog_Descricao, Categorias categorias, ForcasMilitares forcaMilitares,
-			Date pog_CreatedAt) {
-		super();
-		this.pog_Id = pog_Id;
-		this.pog_Descricao = pog_Descricao;
-		this.categorias = categorias;
-		this.forcaMilitares = forcaMilitares;
-		this.pog_CreatedAt = pog_CreatedAt;
+	public Long getId() {
+		return id;
 	}
 
-	public Long getPog_Id() {
-		return pog_Id;
+	public void setId(Long pog_Id) {
+		this.id = pog_Id;
 	}
 
-	public void setPog_Id(Long pog_Id) {
-		this.pog_Id = pog_Id;
+	public String getDescription() {
+		return description;
 	}
 
-	public String getPog_Descricao() {
-		return pog_Descricao;
-	}
-
-	public void setPog_Descricao(String pog_Descricao) {
-		this.pog_Descricao = pog_Descricao;
+	public void setDescription(String pog_Descricao) {
+		this.description = pog_Descricao;
 	}
 
 	public Categorias getCategorias() {
@@ -98,17 +90,15 @@ public class PostoGraduacoes implements Serializable {
 		this.forcaMilitares = forcaMilitares;
 	}
 
-	public Date getPog_CreatedAt() {
-		return pog_CreatedAt;
+	public String getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setPog_CreatedAt(Date pog_CreatedAt) {
-		this.pog_CreatedAt = pog_CreatedAt;
+	public void setCreatedAt(String pog_CreatedAt) {
+		this.createdAt = pog_CreatedAt;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+
 	
 	
 	
@@ -127,9 +117,9 @@ public class PostoGraduacoes implements Serializable {
 		int result = 1;
 		result = prime * result + ((categorias == null) ? 0 : categorias.hashCode());
 		result = prime * result + ((forcaMilitares == null) ? 0 : forcaMilitares.hashCode());
-		result = prime * result + ((pog_CreatedAt == null) ? 0 : pog_CreatedAt.hashCode());
-		result = prime * result + ((pog_Descricao == null) ? 0 : pog_Descricao.hashCode());
-		result = prime * result + ((pog_Id == null) ? 0 : pog_Id.hashCode());
+		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -152,20 +142,20 @@ public class PostoGraduacoes implements Serializable {
 				return false;
 		} else if (!forcaMilitares.equals(other.forcaMilitares))
 			return false;
-		if (pog_CreatedAt == null) {
-			if (other.pog_CreatedAt != null)
+		if (createdAt == null) {
+			if (other.createdAt != null)
 				return false;
-		} else if (!pog_CreatedAt.equals(other.pog_CreatedAt))
+		} else if (!createdAt.equals(other.createdAt))
 			return false;
-		if (pog_Descricao == null) {
-			if (other.pog_Descricao != null)
+		if (description == null) {
+			if (other.description != null)
 				return false;
-		} else if (!pog_Descricao.equals(other.pog_Descricao))
+		} else if (!description.equals(other.description))
 			return false;
-		if (pog_Id == null) {
-			if (other.pog_Id != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!pog_Id.equals(other.pog_Id))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}

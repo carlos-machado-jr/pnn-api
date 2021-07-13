@@ -1,14 +1,15 @@
 package br.mil.marinha.apisisconv.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
@@ -18,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Audited
 @AuditTable("telefones_audit")
+@Table(name = "telefones")
 public class Telefones implements Serializable{
 
 	
@@ -28,64 +30,72 @@ public class Telefones implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column(columnDefinition = "bigInt", name = "tel_Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long tel_Id;
+	private Long id;
 	
-	private String tel_Tipo;
-	private String tel_DDD;
-	private String tel_Numero;
-	private Boolean tel_Status;
+	@Column(columnDefinition = "varchar(25)", name = "tel_Tipo", nullable = false)
+	private String type;
+	
+	@Column(columnDefinition = "varchar(12)", name = "tel_DDD", nullable = false)
+	private String areaCode;
+	
+	@Column(columnDefinition = "varchar(15)", name = "tel_Numero", nullable = false)
+	private String numberPhone;
+	
+	@Column(columnDefinition = "tinyint", name = "tel_Status", nullable = false)
+	private Boolean status;
 	
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "tel_Pro_Id")
 	private Proprietarios proprietarios;
 	
-	
-	private Date tel_Createdat;
+	@Column(columnDefinition = "datetime", name = "tel_CreatedAt", nullable = false)
+	private String createdAt;
 	
 	public Telefones() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Long getTel_Id() {
-		return tel_Id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setTel_Id(Long tel_Id) {
-		this.tel_Id = tel_Id;
+	public void setId(Long tel_Id) {
+		this.id = tel_Id;
 	}
 
-	public String getTel_Tipo() {
-		return tel_Tipo;
+	public String getType() {
+		return type;
 	}
 
-	public void setTel_Tipo(String tel_Tipo) {
-		this.tel_Tipo = tel_Tipo;
+	public void setType(String tel_Tipo) {
+		this.type = tel_Tipo;
 	}
 
-	public String getTel_DDD() {
-		return tel_DDD;
+	public String getAreaCode() {
+		return areaCode;
 	}
 
-	public void setTel_DDD(String tel_DDD) {
-		this.tel_DDD = tel_DDD;
+	public void setAreaCode(String tel_DDD) {
+		this.areaCode = tel_DDD;
 	}
 
-	public String getTel_Numero() {
-		return tel_Numero;
+	public String getNumberPhone() {
+		return numberPhone;
 	}
 
-	public void setTel_Numero(String tel_Numero) {
-		this.tel_Numero = tel_Numero;
+	public void setNumberPhone(String tel_Numero) {
+		this.numberPhone = tel_Numero;
 	}
 
-	public Boolean getTel_Status() {
-		return tel_Status;
+	public boolean getisStatus() {
+		return status;
 	}
 
-	public void setTel_Status(Boolean tel_Status) {
-		this.tel_Status = tel_Status;
+	public void setStatus(boolean tel_Status) {
+		this.status = tel_Status;
 	}
 
 	public Proprietarios getProprietarios() {
@@ -96,12 +106,12 @@ public class Telefones implements Serializable{
 		this.proprietarios = proprietarios;
 	}
 
-	public Date getTel_CreatedAt() {
-		return tel_Createdat;
+	public String getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setTel_CreatedAt(Date tel_CreatedAt) {
-		this.tel_Createdat = tel_CreatedAt;
+	public void setCreatedAt(String tel_CreatedAt) {
+		this.createdAt = tel_CreatedAt;
 	}
 
 	@Override
@@ -109,12 +119,12 @@ public class Telefones implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((proprietarios == null) ? 0 : proprietarios.hashCode());
-		result = prime * result + ((tel_Createdat == null) ? 0 : tel_Createdat.hashCode());
-		result = prime * result + ((tel_DDD == null) ? 0 : tel_DDD.hashCode());
-		result = prime * result + ((tel_Id == null) ? 0 : tel_Id.hashCode());
-		result = prime * result + ((tel_Numero == null) ? 0 : tel_Numero.hashCode());
-		result = prime * result + ((tel_Status == null) ? 0 : tel_Status.hashCode());
-		result = prime * result + ((tel_Tipo == null) ? 0 : tel_Tipo.hashCode());
+		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+		result = prime * result + ((areaCode == null) ? 0 : areaCode.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((numberPhone == null) ? 0 : numberPhone.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
@@ -132,35 +142,35 @@ public class Telefones implements Serializable{
 				return false;
 		} else if (!proprietarios.equals(other.proprietarios))
 			return false;
-		if (tel_Createdat == null) {
-			if (other.tel_Createdat != null)
+		if (createdAt == null) {
+			if (other.createdAt != null)
 				return false;
-		} else if (!tel_Createdat.equals(other.tel_Createdat))
+		} else if (!createdAt.equals(other.createdAt))
 			return false;
-		if (tel_DDD == null) {
-			if (other.tel_DDD != null)
+		if (areaCode == null) {
+			if (other.areaCode != null)
 				return false;
-		} else if (!tel_DDD.equals(other.tel_DDD))
+		} else if (!areaCode.equals(other.areaCode))
 			return false;
-		if (tel_Id == null) {
-			if (other.tel_Id != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!tel_Id.equals(other.tel_Id))
+		} else if (!id.equals(other.id))
 			return false;
-		if (tel_Numero == null) {
-			if (other.tel_Numero != null)
+		if (numberPhone == null) {
+			if (other.numberPhone != null)
 				return false;
-		} else if (!tel_Numero.equals(other.tel_Numero))
+		} else if (!numberPhone.equals(other.numberPhone))
 			return false;
-		if (tel_Status == null) {
-			if (other.tel_Status != null)
+		if (status == null) {
+			if (other.status != null)
 				return false;
-		} else if (!tel_Status.equals(other.tel_Status))
+		} else if (!status.equals(other.status))
 			return false;
-		if (tel_Tipo == null) {
-			if (other.tel_Tipo != null)
+		if (type == null) {
+			if (other.type != null)
 				return false;
-		} else if (!tel_Tipo.equals(other.tel_Tipo))
+		} else if (!type.equals(other.type))
 			return false;
 		return true;
 	}

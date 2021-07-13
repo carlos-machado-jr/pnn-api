@@ -2,12 +2,14 @@ package br.mil.marinha.apisisconv.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
@@ -15,6 +17,7 @@ import org.hibernate.envers.Audited;
 @Entity
 @Audited
 @AuditTable("ramais_audit")
+@Table(name = "ramais")
 public class Ramais implements Serializable{
 	/**
 	 * 
@@ -22,10 +25,12 @@ public class Ramais implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column(columnDefinition = "bigInt", name = "ram_Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long ram_Id;
+	private Long id;
 	
-	private String ram_Descricao;
+	@Column(columnDefinition = "varchar(50)", name = "ram_Descricao", nullable = false)
+	private String description;
 	
 	@ManyToOne
 	@JoinColumn(name = "ram_Setor_Id")
@@ -43,20 +48,20 @@ public class Ramais implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Long getRam_Id() {
-		return ram_Id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setRam_Id(Long ram_Id) {
-		this.ram_Id = ram_Id;
+	public void setId(Long ram_Id) {
+		this.id = ram_Id;
 	}
 
-	public String getRam_Descricao() {
-		return ram_Descricao;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setRam_Descricao(String ram_Descricao) {
-		this.ram_Descricao = ram_Descricao;
+	public void setDescription(String ram_Descricao) {
+		this.description = ram_Descricao;
 	}
 
 	public Setores getSetores() {

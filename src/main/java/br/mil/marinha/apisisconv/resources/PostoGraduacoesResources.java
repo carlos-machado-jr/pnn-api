@@ -40,11 +40,11 @@ public class PostoGraduacoesResources {
 	
 	private List<PostoGraduacoesDTO> createDtoList(List<PostoGraduacoes> pg) {
 		return pg.stream()
-				.map( p -> new PostoGraduacoesDTO(p.getPog_Id(), p.getPog_Descricao(), p.getCategorias(), p.getForcaMilitares()))
+				.map( p -> new PostoGraduacoesDTO(p.getId(), p.getDescription(), p.getCategorias(), p.getForcaMilitares()))
 				.collect(Collectors.toList());
 	}
 	private PostoGraduacoesDTO createDto(PostoGraduacoes pg) {
-		return new PostoGraduacoesDTO(pg.getPog_Id(), pg.getPog_Descricao(), pg.getCategorias(), pg.getForcaMilitares());
+		return new PostoGraduacoesDTO(pg.getId(), pg.getDescription(), pg.getCategorias(), pg.getForcaMilitares());
 	}
 }
 

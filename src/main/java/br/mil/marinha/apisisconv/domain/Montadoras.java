@@ -1,9 +1,9 @@
 package br.mil.marinha.apisisconv.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Audited
 @AuditTable("montadoras_audit")
+@Table(name = "montadoras")
 public class Montadoras implements Serializable {
 
 	/**
@@ -29,13 +31,18 @@ public class Montadoras implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column(columnDefinition = "bigInt", name = "mon_Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long mon_Id;
+	private Long id;
 	
-	private String mon_Descricao;
+	@Column(columnDefinition = "varchar(50)", name = "mon_Descricao", nullable = false)
+	private String description;
 	
-	private Boolean mon_Status;
-	private Date mon_Createdat;
+	@Column(columnDefinition = "tinyint", name = "mon_status", nullable = false)
+	private boolean status;
+	
+	@Column(columnDefinition = "datetime", name = "mon_CreatedAt", nullable = false)
+	private String createdAt;
 	
 	
 	@JsonIgnore
@@ -47,36 +54,36 @@ public class Montadoras implements Serializable {
 	@OneToMany(mappedBy = "montadoras")
 	private List<Veiculos> veiculos;
 
-	public Long getMon_Id() {
-		return mon_Id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setMon_Id(Long mon_Id) {
-		this.mon_Id = mon_Id;
+	public void setId(Long mon_Id) {
+		this.id = mon_Id;
 	}
 
-	public String getMon_Descricao() {
-		return mon_Descricao;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setMon_Descricao(String mon_Descricao) {
-		this.mon_Descricao = mon_Descricao;
+	public void setDescription(String mon_Descricao) {
+		this.description = mon_Descricao;
 	}
 
-	public Boolean getMon_Status() {
-		return mon_Status;
+	public boolean getisStatus() {
+		return status;
 	}
 
-	public void setMon_Status(Boolean mon_Status) {
-		this.mon_Status = mon_Status;
+	public void setStatus(boolean mon_Status) {
+		this.status = mon_Status;
 	}
 
-	public Date getMon_Createdat() {
-		return mon_Createdat;
+	public String getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setMon_Createdat(Date mon_Createdat) {
-		this.mon_Createdat = mon_Createdat;
+	public void setCreatedAt(String mon_Createdat) {
+		this.createdAt = mon_Createdat;
 	}
 
 	

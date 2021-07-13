@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.mil.marinha.apisisconv.domain.Proprietarios;
-import br.mil.marinha.apisisconv.dto.ProprietariosDTO;
+import br.mil.marinha.apisisconv.dto.ViewProprietariosDTO;
 import br.mil.marinha.apisisconv.services.ProprietariosServices;
 
 @RestController
@@ -25,37 +27,27 @@ public class ProprietariosResources {
 	VeiculosResources veiculoResource;
 	
 	@GetMapping
-	public ResponseEntity<List<ProprietariosDTO>> findAll(){
-		List<Proprietarios> p = service.findAll();
-		return ResponseEntity.ok(createDtoList(p));
+	public ResponseEntity<Page<ViewProprietariosDTO>> findAll(){
+		Page<ViewProprietariosDTO> p = transformInDto(service.findAll());
+		return ResponseEntity.ok(p);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ProprietariosDTO> findById(@PathVariable Long id){
-		Proprietarios p = service.findById(id);
-		return ResponseEntity.ok(createDto(p));
+	public ResponseEntity<ViewProprietariosDTO> findById(@PathVariable Long id){
+		ViewProprietariosDTO p = transformInDto(service.findById(id));
+		return ResponseEntity.ok(p);
 	}
 	
 	
 	
 	
+
 	
-	private List<ProprietariosDTO> createDtoList(List<Proprietarios> proprietarios){
-		return proprietarios.stream().map(p -> createDto(p)).collect(Collectors.toList());	
+	private Page<ViewProprietariosDTO> transformInDto(List<Proprietarios> proprietarios){
+		return new PageImpl<>(proprietarios.stream().map(p -> new ViewProprietariosDTO(p)).collect(Collectors.toList()));
 	}
 	
-	private ProprietariosDTO createDto(Proprietarios p) {
-		return new ProprietariosDTO(p.getPro_Id(), 
-									p.getPro_Nome(), 
-									p.getPro_NipCpf(), 
-									p.getPro_Email(), 
-									p.getPro_Cnh(), 
-									p.getPro_Createdat(), 
-									p.getPostoGraduacoes(), 
-									p.getSetores(), 
-									p.getTelefones(),
-									veiculoResource.createDtoList(p.getVeiculos()), 
-									p.getPro_Status(), 
-									p.getPro_Observacao());
+	private ViewProprietariosDTO transformInDto(Proprietarios proprietarios){
+		return new ViewProprietariosDTO(proprietarios);
 	}
 }

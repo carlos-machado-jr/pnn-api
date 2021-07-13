@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
@@ -18,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Audited
 @Entity
 @AuditTable(value = "categorias_audit")
+@Table(name = "categorias")
 public class Categorias implements Serializable {
 
 	/**
@@ -28,10 +30,11 @@ public class Categorias implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long cat_Id;
+	@Column(columnDefinition = "bigInt", name = "cat_Id")
+	private Long id;
 
-	@Column(unique = true)
-	private String cat_Descricao;
+	@Column(columnDefinition = "varchar(50)", name = "cat_Descricao", nullable = false)
+	private String description;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "categorias")
@@ -43,30 +46,24 @@ public class Categorias implements Serializable {
 	public Categorias() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	public Categorias(Long cat_Id, String cat_Descricao, List<PostoGraduacoes> postoGraduacoes) {
-		super();
-		this.cat_Id = cat_Id;
-		this.cat_Descricao = cat_Descricao;
-		this.postoGraduacoes = postoGraduacoes;
+
+
+
+
+	public Long getId() {
+		return id;
 	}
 
-
-
-	public Long getCat_Id() {
-		return cat_Id;
+	public void setId(Long cat_Id) {
+		this.id = cat_Id;
 	}
 
-	public void setCat_Id(Long cat_Id) {
-		this.cat_Id = cat_Id;
+	public String getDescription() {
+		return description;
 	}
 
-	public String getCat_Descricao() {
-		return cat_Descricao;
-	}
-
-	public void setCat_Descricao(String cat_Descricao) {
-		this.cat_Descricao = cat_Descricao;
+	public void setDescription(String cat_Descricao) {
+		this.description = cat_Descricao;
 	}
 
 	public List<PostoGraduacoes> getPostoGraduacoes() {
@@ -81,8 +78,8 @@ public class Categorias implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cat_Descricao == null) ? 0 : cat_Descricao.hashCode());
-		result = prime * result + ((cat_Id == null) ? 0 : cat_Id.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((postoGraduacoes == null) ? 0 : postoGraduacoes.hashCode());
 		return result;
 	}
@@ -96,15 +93,15 @@ public class Categorias implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Categorias other = (Categorias) obj;
-		if (cat_Descricao == null) {
-			if (other.cat_Descricao != null)
+		if (description == null) {
+			if (other.description != null)
 				return false;
-		} else if (!cat_Descricao.equals(other.cat_Descricao))
+		} else if (!description.equals(other.description))
 			return false;
-		if (cat_Id == null) {
-			if (other.cat_Id != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!cat_Id.equals(other.cat_Id))
+		} else if (!id.equals(other.id))
 			return false;
 		if (postoGraduacoes == null) {
 			if (other.postoGraduacoes != null)

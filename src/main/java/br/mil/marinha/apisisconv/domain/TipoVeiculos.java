@@ -1,9 +1,9 @@
 package br.mil.marinha.apisisconv.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,13 +29,18 @@ public class TipoVeiculos implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column(columnDefinition = "bigInt", name = "tiv_Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long tiv_Id;
+	private Long id;
 	
-	private String tiv_Descricao;
+	@Column(columnDefinition = "varchar(50)", name = "tiv_Descricao", nullable = false)
+	private String description;
 	
-	private Boolean tiv_Status;
-	private Date tiv_Createdat;
+	@Column(columnDefinition = "tinyint", name = "tiv_Status", nullable = false)
+	private boolean status;
+	
+	@Column(columnDefinition = "datetime", name = "tiv_CreatedAt", nullable = false)
+	private String createdAt;
 	
 	
 	@JsonIgnore
@@ -46,36 +51,36 @@ public class TipoVeiculos implements Serializable {
 	@OneToMany(mappedBy = "tipo_Veiculos")
 	private List<Veiculos> veiculos;
 
-	public Long getTiv_Id() {
-		return tiv_Id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setTiv_Id(Long tiv_Id) {
-		this.tiv_Id = tiv_Id;
+	public void setId(Long tiv_Id) {
+		this.id = tiv_Id;
 	}
 
-	public String getTiv_Descricao() {
-		return tiv_Descricao;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setTiv_Descricao(String tiv_Descricao) {
-		this.tiv_Descricao = tiv_Descricao;
+	public void setDescription(String tiv_Descricao) {
+		this.description = tiv_Descricao;
 	}
 
-	public Boolean getTiv_Status() {
-		return tiv_Status;
+	public boolean getisStatus() {
+		return status;
 	}
 
-	public void setTiv_Status(Boolean tiv_Status) {
-		this.tiv_Status = tiv_Status;
+	public void setStatus(boolean tiv_Status) {
+		this.status = tiv_Status;
 	}
 
-	public Date getTiv_Createdat() {
-		return tiv_Createdat;
+	public String getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setTiv_Createdat(Date tiv_Createdat) {
-		this.tiv_Createdat = tiv_Createdat;
+	public void setCreatedAt(String tiv_Createdat) {
+		this.createdAt = tiv_Createdat;
 	}
 
 

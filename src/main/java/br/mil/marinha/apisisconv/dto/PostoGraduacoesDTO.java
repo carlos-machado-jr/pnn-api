@@ -23,8 +23,8 @@ public class PostoGraduacoesDTO {
 		super();
 		this.id = id;
 		this.posto = posto;
-		this.categoria = categoria.getCat_Descricao();
-		this.forca = forca.getFom_Descricao();
+		this.categoria = categoria.getDescription();
+		this.forca = forca.getDescription();
 	}
 
 

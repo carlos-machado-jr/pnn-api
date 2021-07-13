@@ -1,13 +1,14 @@
 package br.mil.marinha.apisisconv.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
@@ -15,6 +16,7 @@ import org.hibernate.envers.Audited;
 @Entity
 @Audited
 @AuditTable("cartao_estacionamento_audit")
+@Table
 public class CartaoEstacionamento implements Serializable {
 
 	/**
@@ -23,29 +25,34 @@ public class CartaoEstacionamento implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column(columnDefinition = "bigInt", name = "cae_Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long cae_Id;
+	private Long id;
 	
-	private String cae_Descricao;
+	@Column(columnDefinition = "varchar(50)", name = "cae_Descricao", nullable = false)
+	private String description;
 	
 	@OneToOne(mappedBy = "cartao_estacionamento")
 	private Veiculos veiculos;
 	
-	private Boolean cae_Status;
-	private Date cae_Createdat;
+	@Column(columnDefinition = "tinyint", name = "cae_Status", nullable = false)
+	private boolean status;
+	
+	@Column(columnDefinition = "datetime", name = "cae_Createdat", nullable = false)
+	private String createdAt;
 	
 	
-	public Long getCae_Id() {
-		return cae_Id;
+	public Long getId() {
+		return id;
 	}
-	public void setCae_Id(Long cae_Id) {
-		this.cae_Id = cae_Id;
+	public void setId(Long cae_Id) {
+		this.id = cae_Id;
 	}
-	public String getCae_Descricao() {
-		return cae_Descricao;
+	public String getDescription() {
+		return description;
 	}
-	public void setCae_Descricao(String cae_Descricao) {
-		this.cae_Descricao = cae_Descricao;
+	public void setDescription(String cae_Descricao) {
+		this.description = cae_Descricao;
 	}
 	public Veiculos getVeiculos() {
 		return veiculos;
@@ -53,17 +60,17 @@ public class CartaoEstacionamento implements Serializable {
 	public void setVeiculos(Veiculos veiculos) {
 		this.veiculos = veiculos;
 	}
-	public Boolean getCae_Status() {
-		return cae_Status;
+	public boolean getisStatus() {
+		return status;
 	}
-	public void setCae_Status(Boolean cae_Status) {
-		this.cae_Status = cae_Status;
+	public void setStatus(boolean cae_Status) {
+		this.status = cae_Status;
 	}
-	public Date getCae_Createdat() {
-		return cae_Createdat;
+	public String getCreatedAt() {
+		return createdAt;
 	}
-	public void setCae_Createdat(Date cae_Createdat) {
-		this.cae_Createdat = cae_Createdat;
+	public void setCreatedAt(String cae_Createdat) {
+		this.createdAt = cae_Createdat;
 	}
 	
 	

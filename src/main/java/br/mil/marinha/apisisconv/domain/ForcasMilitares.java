@@ -28,11 +28,12 @@ public class ForcasMilitares implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column(columnDefinition = "bigInt", name = "fom_Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long fom_Id;
+	private Long id;
 	
-	@Column(unique = true)
-	private String fom_Descricao;
+	@Column(columnDefinition = "varchar(50)", name = "fom_Descricao", nullable = false)
+	private String description;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "forcaMilitares")
@@ -43,28 +44,23 @@ public class ForcasMilitares implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ForcasMilitares(Long fom_Id, String fom_Descricao, List<PostoGraduacoes> postoGraduacoes) {
-		super();
-		this.fom_Id = fom_Id;
-		this.fom_Descricao = fom_Descricao;
-		this.postoGraduacoes = postoGraduacoes;
-	}
+
 	
 
-	public Long getFom_Id() {
-		return fom_Id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setFom_Id(Long fom_Id) {
-		this.fom_Id = fom_Id;
+	public void setId(Long fom_Id) {
+		this.id = fom_Id;
 	}
 
-	public String getFom_Descricao() {
-		return fom_Descricao;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setFom_Descricao(String fom_Descricao) {
-		this.fom_Descricao = fom_Descricao;
+	public void setDescription(String fom_Descricao) {
+		this.description = fom_Descricao;
 	}
 
 	public List<PostoGraduacoes> getPostoGraduacoes() {
@@ -79,8 +75,8 @@ public class ForcasMilitares implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((fom_Descricao == null) ? 0 : fom_Descricao.hashCode());
-		result = prime * result + ((fom_Id == null) ? 0 : fom_Id.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((postoGraduacoes == null) ? 0 : postoGraduacoes.hashCode());
 		return result;
 	}
@@ -94,15 +90,15 @@ public class ForcasMilitares implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ForcasMilitares other = (ForcasMilitares) obj;
-		if (fom_Descricao == null) {
-			if (other.fom_Descricao != null)
+		if (description == null) {
+			if (other.description != null)
 				return false;
-		} else if (!fom_Descricao.equals(other.fom_Descricao))
+		} else if (!description.equals(other.description))
 			return false;
-		if (fom_Id == null) {
-			if (other.fom_Id != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!fom_Id.equals(other.fom_Id))
+		} else if (!id.equals(other.id))
 			return false;
 		if (postoGraduacoes == null) {
 			if (other.postoGraduacoes != null)

@@ -3,6 +3,7 @@ package br.mil.marinha.apisisconv.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,10 +28,12 @@ public class OrganizacoesMilitares implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column(columnDefinition = "bigInt", name = "om_Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long om_Id;
+	private Long id;
 	
-	private String om_Descricao;
+	@Column(columnDefinition = "varchar(50)", name = "om_Descricao", nullable = false)
+	private String description;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "organizacoesMilitares")
@@ -38,20 +41,20 @@ public class OrganizacoesMilitares implements Serializable {
 
 	
 	
-	public Long getOm_Id() {
-		return om_Id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setOm_Id(Long om_Id) {
-		this.om_Id = om_Id;
+	public void setId(Long om_Id) {
+		this.id = om_Id;
 	}
 
-	public String getOm_Descricao() {
-		return om_Descricao;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setOm_Descricao(String om_Descricao) {
-		this.om_Descricao = om_Descricao;
+	public void setDescription(String om_Descricao) {
+		this.description = om_Descricao;
 	}
 
 	public List<Ramais> getRamais() {

@@ -38,11 +38,11 @@ public class RamaisResources {
 	
 	
 	private List<RamaisDTO> createDtoList(List<Ramais> ramais){
-		return ramais.stream().map(r -> new RamaisDTO(r.getRam_Id(), r.getRam_Descricao(), r.getSetores(), r.getTipoRamais(), r.getOrganizacoesMilitares()))
+		return ramais.stream().map(r -> new RamaisDTO(r.getId(), r.getDescription(), r.getSetores(), r.getTipoRamais(), r.getOrganizacoesMilitares()))
 					 .collect(Collectors.toList());	
 	}
 	
 	private RamaisDTO createDto(Ramais r) {
-		return new RamaisDTO(r.getRam_Id(), r.getRam_Descricao(), r.getSetores(), r.getTipoRamais(), r.getOrganizacoesMilitares());
+		return new RamaisDTO(r.getId(), r.getDescription(), r.getSetores(), r.getTipoRamais(), r.getOrganizacoesMilitares());
 	}
 }

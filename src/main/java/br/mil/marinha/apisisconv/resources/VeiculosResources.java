@@ -4,54 +4,54 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.mil.marinha.apisisconv.domain.Veiculos;
-import br.mil.marinha.apisisconv.dto.VeiculosDTO;
+import br.mil.marinha.apisisconv.dto.ViewVeiculosDTO;
 import br.mil.marinha.apisisconv.services.VeiculosServices;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/veiculos")
+@Api("veiculos")
+@CrossOrigin(origins = "*")
 public class VeiculosResources {
 	
 	@Autowired
 	VeiculosServices service;
 	
+	@ApiOperation("lista os veiculos")
 	@GetMapping
-	public ResponseEntity<List<VeiculosDTO>> findAll(){
-		List<Veiculos> v = service.findAll();
-		return ResponseEntity.ok(createDtoList(v));
+	public ResponseEntity<Page<ViewVeiculosDTO>> findAll(){
+		Page<ViewVeiculosDTO> v = transformInDto(service.findAll());
+		return ResponseEntity.ok(v);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<VeiculosDTO> findById(@PathVariable Long id){
-		Veiculos v = service.findById(id);
-		return ResponseEntity.ok(createDto(v));
+	public ResponseEntity<ViewVeiculosDTO> findById(@PathVariable Long id){
+		ViewVeiculosDTO v = transformInDto(service.findById(id));
+		return ResponseEntity.ok(v);
 	}
 	
 	
 	
 	
 	
-	protected List<VeiculosDTO> createDtoList(List<Veiculos> veiculos){
-		return veiculos.stream().map(v -> createDto(v))
-					 .collect(Collectors.toList());	
+	
+	
+	private Page<ViewVeiculosDTO> transformInDto(List<Veiculos> veiculos){
+		return new PageImpl<>(veiculos.stream().map(v -> new ViewVeiculosDTO(v)).collect(Collectors.toList()));
 	}
 	
-	protected VeiculosDTO createDto(Veiculos v) {
-		return new VeiculosDTO(v.getVei_Id(), 
-							   v.getVei_Modelo(), 
-							   v.getVei_Ano(), 
-							   v.getVei_Placa(), 
-							   v.getVei_Cor(),
-							   v.getTipo_Veiculos(), 
-							   v.getMontadoras(), 
-							   v.getVei_Status(), 
-							   v.getVei_Createdat(), 
-							   v.getVei_Observacao());
+	private ViewVeiculosDTO transformInDto(Veiculos veiculos){
+		return new ViewVeiculosDTO(veiculos);
 	}
 }

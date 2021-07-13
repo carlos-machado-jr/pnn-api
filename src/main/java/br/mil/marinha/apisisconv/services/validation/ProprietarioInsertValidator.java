@@ -8,11 +8,11 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.mil.marinha.apisisconv.dto.ProprietariosDTO;
+import br.mil.marinha.apisisconv.dto.NewProprietariosDTO;
 import br.mil.marinha.apisisconv.repositories.ProprietariosRepository;
 import br.mil.marinha.apisisconv.resources.exceptions.FieldMessage;
 
-public class ProprietarioInsertValidator implements ConstraintValidator<ProprietarioInsert, ProprietariosDTO> {
+public class ProprietarioInsertValidator implements ConstraintValidator<ProprietarioInsert, NewProprietariosDTO> {
 	
 	
 	@Autowired
@@ -22,7 +22,7 @@ public class ProprietarioInsertValidator implements ConstraintValidator<Propriet
 	}
 
 	@Override
-	public boolean isValid(ProprietariosDTO proprietarioDto, ConstraintValidatorContext context) {
+	public boolean isValid(NewProprietariosDTO proprietarioDto, ConstraintValidatorContext context) {
 		
 		
 		List<FieldMessage> list = new ArrayList<>();

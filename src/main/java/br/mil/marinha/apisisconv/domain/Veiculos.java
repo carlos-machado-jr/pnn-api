@@ -1,8 +1,11 @@
 package br.mil.marinha.apisisconv.domain;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,13 +13,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
+import br.mil.marinha.apisisconv.dto.NewVeiculosDTO;
+
 @Entity
 @Audited
 @AuditTable("veiculos_audit")
+@Table(name = "veiculos")
 public class Veiculos implements Serializable {
 
 	/**
@@ -25,13 +32,21 @@ public class Veiculos implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(columnDefinition = "bigInt", name = "vei_Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long vei_Id;
+	private Long id;
 
-	private String vei_Modelo;
-	private String vei_Ano;
-	private String vei_Placa;
-	private String vei_Cor;
+	@Column(columnDefinition = "varchar(50)", name = "vei_Modelo")
+	private String model;
+	
+	@Column(columnDefinition = "varchar(6)", name = "vei_Ano")
+	private String year;
+	
+	@Column(columnDefinition = "varchar(20)", name = "vei_Placa")
+	private String licensePlate;
+	
+	@Column(columnDefinition = "varchar(30)", name = "vei_cor")
+	private String color;
 
 	@ManyToOne
 	@JoinColumn(name = "vei_Pro_Id")
@@ -43,55 +58,89 @@ public class Veiculos implements Serializable {
 
 	@OneToOne
 	@JoinColumn(name = "vei_Cartao_Id", referencedColumnName = "cae_Id")
-	private CartaoEstacionamento cartao_estacionamento;
+	private CartaoEstacionamento cartaoEstacionamento;
 
 	@ManyToOne
 	@JoinColumn(name = "vei_Tipo_Id")
-	private TipoVeiculos tipo_Veiculos;
+	private TipoVeiculos tipoVeiculos;
 
-	private Boolean vei_Status;
-	private Date vei_Validade;
-	private Date vei_Createdat;
-	private String vei_Observacao;
+	@Column(columnDefinition = "TINYINT", name = "vei_status", nullable = false)
+	private boolean status;
+	
+	@Column(columnDefinition = "datetime", name = "vei_Validade", nullable = false)
+	private String validity;
+	
+	@Column(columnDefinition = "datetime", name = "vei_CreatedAt", nullable = false)
+	private String createdAt;
+	
+	@Column(columnDefinition = "varchar(255)", name = "vei_Observacao")
+	private String note;
 
-	public Long getVei_Id() {
-		return vei_Id;
+	
+	
+	
+	public Veiculos() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+	public Veiculos(NewVeiculosDTO veiculosDto) {
+		super();
+		this.id = null;
+		this.model = veiculosDto.getModel();
+		this.year = veiculosDto.getYear();
+		this.licensePlate = veiculosDto.getLicensePlate();
+		this.color = veiculosDto.getColor();
+		this.status = true;
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = new Date();
+		this.createdAt = date.format(now);
+		LocalDate newValidity = LocalDate.parse(date.format(now)).plusYears(1);
+		this.validity = date.format(newValidity);
+		this.note = veiculosDto.getNote();
 	}
 
-	public void setVei_Id(Long vei_Id) {
-		this.vei_Id = vei_Id;
+
+
+	public Long getId() {
+		return id;
 	}
 
-	public String getVei_Modelo() {
-		return vei_Modelo;
+	public void setId(Long vei_Id) {
+		this.id = vei_Id;
 	}
 
-	public void setVei_Modelo(String vei_Modelo) {
-		this.vei_Modelo = vei_Modelo;
+	public String getModel() {
+		return model;
 	}
 
-	public String getVei_Ano() {
-		return vei_Ano;
+	public void setModel(String vei_Modelo) {
+		this.model = vei_Modelo;
 	}
 
-	public void setVei_Ano(String vei_Ano) {
-		this.vei_Ano = vei_Ano;
+	public String getYear() {
+		return year;
 	}
 
-	public String getVei_Placa() {
-		return vei_Placa;
+	public void setYear(String vei_Ano) {
+		this.year = vei_Ano;
 	}
 
-	public void setVei_Placa(String vei_Placa) {
-		this.vei_Placa = vei_Placa;
+	public String getLicensePlate() {
+		return licensePlate;
 	}
 
-	public String getVei_Cor() {
-		return vei_Cor;
+	public void setLicensePlate(String vei_Placa) {
+		this.licensePlate = vei_Placa;
 	}
 
-	public void setVei_Cor(String vei_Cor) {
-		this.vei_Cor = vei_Cor;
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String vei_Cor) {
+		this.color = vei_Cor;
 	}
 
 	public Proprietarios getProprietarios() {
@@ -111,51 +160,53 @@ public class Veiculos implements Serializable {
 	}
 
 	public CartaoEstacionamento getCartao_estacionamento() {
-		return cartao_estacionamento;
+		return cartaoEstacionamento;
 	}
 
 	public void setCartao_estacionamento(CartaoEstacionamento cartao_estacionamento) {
-		this.cartao_estacionamento = cartao_estacionamento;
+		this.cartaoEstacionamento = cartao_estacionamento;
 	}
 
 	public TipoVeiculos getTipo_Veiculos() {
-		return tipo_Veiculos;
+		return tipoVeiculos;
 	}
 
 	public void setTipo_Veiculos(TipoVeiculos tipo_Veiculos) {
-		this.tipo_Veiculos = tipo_Veiculos;
+		this.tipoVeiculos = tipo_Veiculos;
 	}
 
-	public Boolean getVei_Status() {
-		return vei_Status;
+	
+
+	public boolean isStatus() {
+		return status;
 	}
 
-	public void setVei_Status(Boolean vei_Status) {
-		this.vei_Status = vei_Status;
+	public void setStatus(boolean vei_Status) {
+		this.status = vei_Status;
 	}
 
-	public Date getVei_Validade() {
-		return vei_Validade;
+	public String getValidity() {
+		return validity;
 	}
 
-	public void setVei_Validade(Date vei_Validade) {
-		this.vei_Validade = vei_Validade;
+	public void setValidity(String vei_Validade) {
+		this.validity = vei_Validade;
 	}
 
-	public Date getVei_Createdat() {
-		return vei_Createdat;
+	public String getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setVei_Createdat(Date vei_Createdat) {
-		this.vei_Createdat = vei_Createdat;
+	public void setCreatedAt(String vei_Createdat) {
+		this.createdAt = vei_Createdat;
 	}
 
-	public String getVei_Observacao() {
-		return vei_Observacao;
+	public String getNote() {
+		return note;
 	}
 
-	public void setVei_Observacao(String vei_Observacao) {
-		this.vei_Observacao = vei_Observacao;
+	public void setNote(String vei_Observacao) {
+		this.note = vei_Observacao;
 	}
 
 }

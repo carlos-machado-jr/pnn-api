@@ -1,9 +1,11 @@
 package br.mil.marinha.apisisconv.domain;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,15 +13,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.mil.marinha.apisisconv.dto.NewProprietariosDTO;
+
 @Entity
 @Audited
 @AuditTable("proprietarios_audit")
+@Table(name = "proprietarios")
 public class Proprietarios implements Serializable{
 	
 	
@@ -30,14 +36,23 @@ public class Proprietarios implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long pro_Id;
+	@Column(columnDefinition = "bigInt", name = "pro_Id")
+	private Long id;
 	
-	private String pro_Nome;
-	private String pro_NipCpf;
-	private String pro_Email;
-	private String pro_Cnh;
+	@Column(columnDefinition = "varchar(100)", name = "pro_Nome", nullable = false)
+	private String name;
 	
-	private Date pro_Createdat;
+	@Column(columnDefinition = "varchar(20)", name = "pro_Nip_Cpf", nullable = false, unique = true)
+	private String nipOrCpf;
+	
+	@Column(columnDefinition = "varchar(50)", name = "pro_Email")
+	private String email;
+	
+	@Column(columnDefinition = "varchar(50)", name = "pro_Cnh", nullable = false, unique = true)
+	private String driversLicense;
+	
+	@Column(columnDefinition = "datetime", name = "pro_CreatedAt", nullable = false)
+	private String createdAt;
 	
 	@ManyToOne
 	@JoinColumn(name = "pro_Posto_Id")
@@ -47,8 +62,11 @@ public class Proprietarios implements Serializable{
 	@JoinColumn(name = "pro_Setor_Id")
 	private Setores setores;
 	
-	private Boolean pro_Status;
-	private String pro_Observacao;
+	@Column(columnDefinition = "tinyint", name = "pro_Status", nullable = false)
+	private boolean status;
+	
+	@Column(columnDefinition = "varchar(255)", name = "pro_Observacao")
+	private String note;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "proprietarios")
@@ -65,63 +83,80 @@ public class Proprietarios implements Serializable{
 	}
 
 
-	public Long getPro_Id() {
-		return pro_Id;
+	
+	public Proprietarios(NewProprietariosDTO proprietariosDto) {
+		super();
+		this.id = null;
+		this.name = proprietariosDto.getName();
+		this.nipOrCpf = proprietariosDto.getNipOrCpf();
+		this.email = proprietariosDto.getEmail();
+		this.driversLicense = proprietariosDto.getDriversLicense();
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = new Date();
+		this.createdAt = date.format(now);
+		this.status = true;
+		this.note = proprietariosDto.getNote();
 	}
 
 
-	public void setPro_Id(Long pro_Id) {
-		this.pro_Id = pro_Id;
+
+	public Long getId() {
+		return id;
 	}
 
 
-	public String getPro_Nome() {
-		return pro_Nome;
+	public void setId(Long pro_Id) {
+		this.id = pro_Id;
 	}
 
 
-	public void setPro_Nome(String pro_Nome) {
-		this.pro_Nome = pro_Nome;
+	public String getName() {
+		return name;
 	}
 
 
-	public String getPro_NipCpf() {
-		return pro_NipCpf;
+	public void setName(String pro_Nome) {
+		this.name = pro_Nome;
 	}
 
 
-	public void setPro_NipCpf(String pro_NipCpf) {
-		this.pro_NipCpf = pro_NipCpf;
+	public String getNipOrCpf() {
+		return nipOrCpf;
 	}
 
 
-	public String getPro_Email() {
-		return pro_Email;
+	public void setNipOrCpf(String pro_NipCpf) {
+		this.nipOrCpf = pro_NipCpf;
 	}
 
 
-	public void setPro_Email(String pro_Email) {
-		this.pro_Email = pro_Email;
+	public String getEmail() {
+		return email;
 	}
 
 
-	public String getPro_Cnh() {
-		return pro_Cnh;
+	public void setEmail(String pro_Email) {
+		this.email = pro_Email;
 	}
 
 
-	public void setPro_Cnh(String pro_Cnh) {
-		this.pro_Cnh = pro_Cnh;
+	public String getDriversLicense() {
+		return driversLicense;
 	}
 
 
-	public Date getPro_Createdat() {
-		return pro_Createdat;
+	public void setDriversLicense(String pro_Cnh) {
+		this.driversLicense = pro_Cnh;
 	}
 
 
-	public void setPro_Createdat(Date pro_Createdat) {
-		this.pro_Createdat = pro_Createdat;
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+
+	public void setCreatedAt(String pro_Createdat) {
+		this.createdAt = pro_Createdat;
 	}
 
 
@@ -145,23 +180,23 @@ public class Proprietarios implements Serializable{
 	}
 
 
-	public Boolean getPro_Status() {
-		return pro_Status;
+	public boolean getisStatus() {
+		return status;
 	}
 
 
-	public void setPro_Status(Boolean pro_Status) {
-		this.pro_Status = pro_Status;
+	public void setStatus(boolean pro_Status) {
+		this.status = pro_Status;
 	}
 
 
-	public String getPro_Observacao() {
-		return pro_Observacao;
+	public String getNote() {
+		return note;
 	}
 
 
-	public void setPro_Observacao(String pro_Observacao) {
-		this.pro_Observacao = pro_Observacao;
+	public void setNote(String pro_Observacao) {
+		this.note = pro_Observacao;
 	}
 
 

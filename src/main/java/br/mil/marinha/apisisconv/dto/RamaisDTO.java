@@ -17,9 +17,9 @@ public class RamaisDTO {
 		super();
 		this.id = id;
 		this.ramal = ramal;
-		this.setor = setor.getSet_Descricao();
-		this.tipo = tipo.getTir_Descricao();
-		this.organizacaoMilitar = organizacaoMilitar.getOm_Descricao();
+		this.setor = setor.getDescription();
+		this.tipo = tipo.getDescription();
+		this.organizacaoMilitar = organizacaoMilitar.getDescription();
 	}
 
 
