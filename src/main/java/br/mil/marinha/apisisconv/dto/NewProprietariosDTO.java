@@ -2,8 +2,6 @@ package br.mil.marinha.apisisconv.dto;
 
 import java.util.List;
 
-import br.mil.marinha.apisisconv.domain.Telefones;
-
 public class NewProprietariosDTO {
 
 	private String name;
@@ -13,7 +11,7 @@ public class NewProprietariosDTO {
 	
 	private String militaryPost;
 	private String sector;
-	private List<Telefones> numberPhones;
+	private List<NewTelefoneDTO> numberPhones;
 	private List<NewVeiculosDTO> cars;
 	private String note;
 	
@@ -56,10 +54,10 @@ public class NewProprietariosDTO {
 	public void setSector(String sector) {
 		this.sector = sector;
 	}
-	public List<Telefones> getNumberPhones() {
+	public List<NewTelefoneDTO> getNumberPhones() {
 		return numberPhones;
 	}
-	public void setNumberPhones(List<Telefones> numberPhones) {
+	public void setNumberPhones(List<NewTelefoneDTO> numberPhones) {
 		this.numberPhones = numberPhones;
 	}
 	public List<NewVeiculosDTO> getCars() {

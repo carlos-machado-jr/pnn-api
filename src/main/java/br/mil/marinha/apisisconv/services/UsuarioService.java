@@ -142,12 +142,12 @@ public class UsuarioService extends UsuarioServiceSpecifications implements User
 	}
 
 	private Usuarios transformDTO(UsuarioNewDTO newDTO) {
-		UserSS userAuthenticated = UserService.authenticated();
-		// se o usuario autenticado nao for administrador, ele nao poderá cadastrar usuarios administradores!
-		if (userAuthenticated.hasRole("Usuario") && newDTO.getPermissao().equals("Administrador")) {
-			 throw new AuthorizationException("Acesso negado!");
-		}
-		
+//		UserSS userAuthenticated = UserService.authenticated();
+//		// se o usuario autenticado nao for administrador, ele nao poderá cadastrar usuarios administradores!
+//		if (userAuthenticated.hasRole("Usuario") && newDTO.getPermissao().equals("Administrador")) {
+//			 throw new AuthorizationException("Acesso negado!");
+//		}
+//		
 		Usuarios usuario = new Usuarios(newDTO.getId(), newDTO.getNome_usuario(), newDTO.getEmail(),
 				newDTO.getNip_responsavel(), encoder.encode(newDTO.getSenha()), true);
 

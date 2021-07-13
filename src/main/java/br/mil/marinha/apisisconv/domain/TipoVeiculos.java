@@ -44,11 +44,11 @@ public class TipoVeiculos implements Serializable {
 	
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "tipo_Veiculos")
+	@ManyToMany(mappedBy = "tipoVeiculos")
 	private List<Montadoras> montadoras;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "tipo_Veiculos")
+	@OneToMany(mappedBy = "tipoVeiculos")
 	private List<Veiculos> veiculos;
 
 	public Long getId() {

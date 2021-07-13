@@ -1,6 +1,8 @@
 package br.mil.marinha.apisisconv.domain;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +17,8 @@ import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import br.mil.marinha.apisisconv.dto.NewTelefoneDTO;
 
 @Entity
 @Audited
@@ -57,6 +61,20 @@ public class Telefones implements Serializable{
 	public Telefones() {
 		// TODO Auto-generated constructor stub
 	}
+
+	
+	public Telefones(NewTelefoneDTO newTelefone) {
+		super();
+		this.id = null;
+		this.type = newTelefone.getType();
+		this.areaCode = newTelefone.getAreaCode();
+		this.numberPhone = newTelefone.getNumberPhone();
+		this.status = true;
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = new Date();
+		this.createdAt = date.format(now);
+	}
+
 
 	public Long getId() {
 		return id;

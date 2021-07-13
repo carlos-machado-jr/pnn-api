@@ -48,7 +48,7 @@ public class Montadoras implements Serializable {
 	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name="rel_tipo_montadoras", joinColumns = {@JoinColumn(name="mon_Id")}, inverseJoinColumns = {@JoinColumn(name="tiv_Id")})
-	private List<TipoVeiculos> tipo_Veiculos;
+	private List<TipoVeiculos> tipoVeiculos;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "montadoras")
@@ -90,11 +90,11 @@ public class Montadoras implements Serializable {
 
 
 	public List<TipoVeiculos> getTipo_Veiculos() {
-		return tipo_Veiculos;
+		return tipoVeiculos;
 	}
 
 	public void setTipo_Veiculos(List<TipoVeiculos> tipo_Veiculos) {
-		this.tipo_Veiculos = tipo_Veiculos;
+		this.tipoVeiculos = tipo_Veiculos;
 	}
 
 	public List<Veiculos> getVeiculos() {

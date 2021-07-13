@@ -32,7 +32,7 @@ public class CartaoEstacionamento implements Serializable {
 	@Column(columnDefinition = "varchar(50)", name = "cae_Descricao", nullable = false)
 	private String description;
 	
-	@OneToOne(mappedBy = "cartao_estacionamento")
+	@OneToOne(mappedBy = "cartaoEstacionamento")
 	private Veiculos veiculos;
 	
 	@Column(columnDefinition = "tinyint", name = "cae_Status", nullable = false)
