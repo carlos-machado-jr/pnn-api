@@ -5,8 +5,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,53 +27,46 @@ import br.mil.marinha.apisisconv.dto.UsuarioNewDTO;
 import br.mil.marinha.apisisconv.dto.UsuariosDTO;
 import br.mil.marinha.apisisconv.services.UsuarioService;
 import br.mil.marinha.apisisconv.services.exceptions.ObjectNotFoundException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/usuarios")
+@Api("API Rest usuario")
+@CrossOrigin(origins = "*")
 public class UsuarioResource {
 
 	@Autowired
 	UsuarioService usuarioService;
 	
 //	@PreAuthorize("hasAnyRole('Administrador')")
+	@ApiOperation("Cria um usuario")
 	@GetMapping
-	public ResponseEntity<List<UsuariosDTO>> findAll(){
-		List<Usuarios> usuariosList = usuarioService.findAll();
-		List<UsuariosDTO> dtoList = createUsuariosDTO(usuariosList);
+	public ResponseEntity<Page<UsuariosDTO>> findAll(Pageable pageable){
+		Page<Usuarios> usuariosList = usuarioService.findAll(pageable);
+		Page<UsuariosDTO> dtoList = createUsuariosDTO(usuariosList.toList());
 		return ResponseEntity.ok(dtoList);
 	}
 	
 //	@PreAuthorize("hasAnyRole('Administrador') || hasAnyRole('Supervisor')")
-	@GetMapping("/comuns")
-	public ResponseEntity<List<UsuariosDTO>> findAllUsuarioComum(){
-		List<Usuarios> usuariosList = usuarioService.findAllUsuarioComum();
-		List<UsuariosDTO> dtoList = usuariosList.stream().map(u -> new UsuariosDTO(u)).collect(Collectors.toList());
+	@GetMapping("/search")
+	public ResponseEntity<Page<UsuariosDTO>> search(@RequestParam(required = false) String permissoes,
+													@RequestParam(required = false) Boolean status,
+													Pageable pageable){
+		Page<Usuarios> usuarios = usuarioService.search(status, permissoes, pageable);
+		Page<UsuariosDTO> dtoList = createUsuariosDTO(usuarios.toList());
 		return ResponseEntity.ok(dtoList);
 	}
 	
-	@PreAuthorize("hasAnyRole('Administrador')")
-	@GetMapping("/ativados")
-	public ResponseEntity<List<UsuariosDTO>> findAllActivated() {
-		List<Usuarios> usuariosList = usuarioService.findAllActivated();
+	
 
-		List<UsuariosDTO> dtoList = createUsuariosDTO(usuariosList);
-		return ResponseEntity.ok(dtoList);
-	}
-	
-	@PreAuthorize("hasAnyRole('Administrador')")
-	@GetMapping("/desativados")
-	public ResponseEntity<List<UsuariosDTO>> findAllDisabled() {
-		List<Usuarios> usuariosList = usuarioService.findAllDisabled();
 
-		List<UsuariosDTO> dtoList = createUsuariosDTO(usuariosList);
-		return ResponseEntity.ok(dtoList);
-	}
-	
-	
+
 	
 	@PreAuthorize("hasAnyRole('Administrador')")
 	@GetMapping("/{id}")
-	public ResponseEntity<UsuariosDTO> findById(@PathVariable Integer id) {
+	public ResponseEntity<UsuariosDTO> findById(
+												@PathVariable Integer id) {
 
 		Usuarios usuario = usuarioService.findById(id);
 
@@ -119,8 +116,8 @@ public class UsuarioResource {
 	}
 	
 	@GetMapping("/perfil")
-	public ResponseEntity<UsuariosDTO> findByNomeUsuario(@RequestParam(value="value") String nome_usuario ){
-		Usuarios usuario = usuarioService.findByNomeUsuario(nome_usuario);
+	public ResponseEntity<UsuariosDTO> findByUsuario(){
+		Usuarios usuario = usuarioService.findByUsuario();
 
 		UsuariosDTO dto = new UsuariosDTO(usuario);
 		return ResponseEntity.ok(dto);
@@ -137,7 +134,7 @@ public class UsuarioResource {
 	@PreAuthorize("hasAnyRole('Administrador')")
 	@PutMapping("/ativar/{id}")
 	public ResponseEntity<Void> active(@PathVariable Integer id, @RequestBody UsuarioNewDTO dto) {
-		Usuarios usuario = usuarioService.findById(id);
+		Usuarios usuario = usuarioService.activate(id);
 
 		if (!usuario.isAtivo()) {
 			dto.setId(id);
@@ -149,7 +146,7 @@ public class UsuarioResource {
 	}
 	
 	
-	private List<UsuariosDTO> createUsuariosDTO(List<Usuarios> usuariosList) {
-		return usuariosList.stream().map(u -> new UsuariosDTO(u)).collect(Collectors.toList());
+	private Page<UsuariosDTO> createUsuariosDTO(List<Usuarios> usuariosList) {
+		return new PageImpl<>(usuariosList.stream().map(u -> new UsuariosDTO(u)).collect(Collectors.toList()));
 	}
 }

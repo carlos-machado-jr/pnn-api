@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,9 +21,10 @@ import br.mil.marinha.apisisconv.repositories.UsuarioRepository;
 import br.mil.marinha.apisisconv.security.UserSS;
 import br.mil.marinha.apisisconv.services.exceptions.AuthorizationException;
 import br.mil.marinha.apisisconv.services.exceptions.ObjectNotFoundException;
+import br.mil.marinha.apisisconv.services.specifications.UsuarioServiceSpecifications;
 
 @Service
-public class UsuarioService implements UserDetailsService {
+public class UsuarioService extends UsuarioServiceSpecifications implements UserDetailsService  {
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
@@ -36,31 +39,18 @@ public class UsuarioService implements UserDetailsService {
 	 
 
 	// administrador
-	public List<Usuarios> findAll() {
-		return usuarioRepository.findAll();
-	}
-
-	// administrador
-	public List<Usuarios> findAllActivated() {
-		return usuarioRepository.findAllActivated();
-	}
-
-	// administrador
-	public List<Usuarios> findAllDisabled() {
-		return usuarioRepository.findAllDisabled();
-
-	}
-
-	// administrador e supervisor
-	public List<Usuarios> findAllUsuarioComum() {
-		return usuarioRepository.findAllUsuarioComum("Usuario");
+	public Page<Usuarios> findAll(Pageable pageable) {
+		return usuarioRepository.findAll(pageable);
 	}
 	
-	public Usuarios findByNomeUsuario(String nome_usuario) {
-		Usuarios usuario = usuarioRepository.findByNomeUsuario(nome_usuario);
-		if (usuario == null) {
-			throw new ObjectNotFoundException("Usuario não encontrado!");
-		}
+	public Page<Usuarios> search(Boolean status, String permissoes, Pageable pageable) {
+		return usuarioRepository.findAll(searchBy(status, permissoes) , pageable);
+	}
+
+
+	public Usuarios findByUsuario() {
+		UserSS userAuthenticated = UserService.authenticated();
+		Usuarios usuario = findById(userAuthenticated.getId());
 		return usuario;
 	}
 	
@@ -94,7 +84,7 @@ public class UsuarioService implements UserDetailsService {
 	public Usuarios findByIdDisabled(Integer id) {
 		Optional<Usuarios> c = usuarioRepository.findByIdAndAtivo(id, false);
 		
-		return c.orElseThrow(() -> objectNotFoundException(id, "Usuario ativado!"));
+		return c.orElseThrow(() -> objectNotFoundException(id, "Usuario ativado ou não existe!"));
 
 	}
 
@@ -130,9 +120,15 @@ public class UsuarioService implements UserDetailsService {
 		usuarioRepository.save(usuario);
 	}
 	
+	public Usuarios activate(Integer id) {
+		Usuarios usuario = usuarioRepository.findById(id).orElseThrow(() -> objectNotFoundException(id, "Usuario não encontrado!"));
+		usuario.setAtivo(false);
+		return usuarioRepository.save(usuario);
+	}
+	
 	//administrador
 	public void deactivate(Integer id) {
-		Usuarios usuario = findById(id);
+		Usuarios usuario = usuarioRepository.findById(id).orElseThrow(() -> objectNotFoundException(id, "Usuario não encontrado!"));
 		usuario.setAtivo(false);
 		usuarioRepository.save(usuario);
 	}
