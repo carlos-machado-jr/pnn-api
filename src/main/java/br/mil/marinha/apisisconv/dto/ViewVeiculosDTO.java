@@ -6,13 +6,14 @@ public class ViewVeiculosDTO {
 	private Long id;
 	private String model;
 	private String year;
-	private String LicensePlate;
+	private String licensePlate;
 	private String color;
 	
 	private String typeVehicles;
 	private String automaker;
 	private String status;
 	private String createdAt;
+	private String validity;
 	private String note;
 	
 	public ViewVeiculosDTO() {
@@ -26,11 +27,12 @@ public class ViewVeiculosDTO {
 		this.id = v.getId();
 		this.model = v.getModel();
 		this.year = v.getYear();
-		LicensePlate = v.getLicensePlate();
+		this.licensePlate = v.getLicensePlate();
 		this.color = v.getColor();
 		this.typeVehicles = v.getTipo_Veiculos().getDescription();
 		this.automaker = v.getMontadoras().getDescription();
 		this.status = v.isStatus() ? "Ativado" : "Desativado";
+		this.validity = v.getValidity();
 		this.createdAt = v.getCreatedAt();
 		this.note = v.getNote();
 	}
@@ -56,10 +58,10 @@ public class ViewVeiculosDTO {
 		this.year = year;
 	}
 	public String getLicensePlate() {
-		return LicensePlate;
+		return licensePlate;
 	}
 	public void setLicensePlate(String licensePlate) {
-		LicensePlate = licensePlate;
+		this.licensePlate = licensePlate;
 	}
 	public String getColor() {
 		return color;
@@ -85,6 +87,19 @@ public class ViewVeiculosDTO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	public String getValidity() {
+		return validity;
+	}
+
+
+
+	public void setValidity(String validity) {
+		this.validity = validity;
+	}
+
+
+
 	public String getCreatedAt() {
 		return createdAt;
 	}

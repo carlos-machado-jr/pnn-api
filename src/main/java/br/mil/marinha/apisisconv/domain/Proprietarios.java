@@ -87,15 +87,15 @@ public class Proprietarios implements Serializable{
 	public Proprietarios(NewProprietariosDTO proprietariosDto) {
 		super();
 		this.id = null;
-		this.name = proprietariosDto.getName();
+		this.name = proprietariosDto.getName().toLowerCase();
 		this.nipOrCpf = proprietariosDto.getNipOrCpf();
-		this.email = proprietariosDto.getEmail();
+		this.email = proprietariosDto.getEmail().toLowerCase();
 		this.driversLicense = proprietariosDto.getDriversLicense();
 		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date now = new Date();
 		this.createdAt = date.format(now);
 		this.status = true;
-		this.note = proprietariosDto.getNote();
+		this.note = proprietariosDto.getNote().toLowerCase();
 	}
 
 

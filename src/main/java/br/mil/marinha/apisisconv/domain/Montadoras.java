@@ -54,6 +54,17 @@ public class Montadoras implements Serializable {
 	@OneToMany(mappedBy = "montadoras")
 	private List<Veiculos> veiculos;
 
+	
+	public Montadoras() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+	
+
+
+
 	public Long getId() {
 		return id;
 	}

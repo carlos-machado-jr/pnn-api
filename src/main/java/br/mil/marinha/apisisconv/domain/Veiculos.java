@@ -2,7 +2,8 @@ package br.mil.marinha.apisisconv.domain;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -93,16 +94,24 @@ public class Veiculos implements Serializable {
 		this.licensePlate = veiculosDto.getLicensePlate();
 		this.color = veiculosDto.getColor();
 		this.status = true;
-		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date now = new Date();
-		this.createdAt = date.format(now);
-		LocalDate newValidity = LocalDate.parse(date.format(now)).plusYears(1);
-		this.validity = date.format(newValidity);
+		this.createdAt = getNowDate();
+		
+		this.validity = plusYears(this.createdAt, 1);
 		this.note = veiculosDto.getNote();
 	}
 
-
-
+	
+	private String plusYears(String date, int years) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime newValidity = LocalDateTime.parse(date.replace(" ", "T")).plusYears(years);
+		return newValidity.format(formatter);
+	}
+	private String getNowDate() {
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = new Date();
+		return date.format(now);
+		
+	}
 	public Long getId() {
 		return id;
 	}

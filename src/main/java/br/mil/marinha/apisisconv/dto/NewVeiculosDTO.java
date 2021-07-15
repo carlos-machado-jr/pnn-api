@@ -8,6 +8,7 @@ public class NewVeiculosDTO {
 	private String color;
 	
 	private String typeVehicles;
+	private String parkingCard;
 	private String automaker;
 	private String note;
 	
@@ -45,6 +46,15 @@ public class NewVeiculosDTO {
 
 	public void setColor(String color) {
 		this.color = color;
+	}
+
+	
+	public String getParkingCard() {
+		return parkingCard;
+	}
+
+	public void setParkingCard(String parkingCard) {
+		this.parkingCard = parkingCard;
 	}
 
 	public String getTypeVehicles() {

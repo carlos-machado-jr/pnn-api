@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,28 +25,28 @@ public class PostoGraduacoesResources {
 	PostoGraduacoesServices service;
 	
 	@GetMapping
-	public ResponseEntity<List<PostoGraduacoesDTO>> findAll(){
-		List<PostoGraduacoes> pg = service.findAll();
+	public ResponseEntity<Page<PostoGraduacoesDTO>> findAll(Pageable pageable){
+		Page<PostoGraduacoesDTO> pg = transformInDto(service.findAll(pageable).toList());
 		
-		return ResponseEntity.ok(createDtoList(pg));
+		return ResponseEntity.ok(pg);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<PostoGraduacoesDTO> findById(@PathVariable Long id){
-		PostoGraduacoes pg = service.findById(id);
+		PostoGraduacoesDTO postoGraduacoesDto = transformInDto(service.findById(id));
 		
-		return ResponseEntity.ok(createDto(pg));
+		return ResponseEntity.ok(postoGraduacoesDto);
 	}
 	
 	
 	
 	
-	private List<PostoGraduacoesDTO> createDtoList(List<PostoGraduacoes> pg) {
-		return pg.stream()
-				.map( p -> new PostoGraduacoesDTO(p.getId(), p.getDescription(), p.getCategorias(), p.getForcaMilitares()))
-				.collect(Collectors.toList());
+	private Page<PostoGraduacoesDTO> transformInDto(List<PostoGraduacoes> pg) {
+		return new PageImpl<>( 
+					pg.stream().map( p -> new PostoGraduacoesDTO(p.getId(), p.getDescription(), p.getCategorias(), p.getForcaMilitares()))
+							   .collect(Collectors.toList()));
 	}
-	private PostoGraduacoesDTO createDto(PostoGraduacoes pg) {
+	private PostoGraduacoesDTO transformInDto(PostoGraduacoes pg) {
 		return new PostoGraduacoesDTO(pg.getId(), pg.getDescription(), pg.getCategorias(), pg.getForcaMilitares());
 	}
 }

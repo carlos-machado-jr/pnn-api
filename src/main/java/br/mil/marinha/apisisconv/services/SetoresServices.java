@@ -1,13 +1,13 @@
 package br.mil.marinha.apisisconv.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.mil.marinha.apisisconv.domain.Setores;
 import br.mil.marinha.apisisconv.repositories.SetoresRepository;
+import br.mil.marinha.apisisconv.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class SetoresServices {
@@ -22,7 +22,12 @@ public class SetoresServices {
 	}
 	
 	public Setores findById(Long id) {
-		Optional<Setores> f = repo.findById(id);
-		return f.orElse(null);
+		Setores setores = repo.findById(id).orElseThrow(() -> new ObjectNotFoundException("Setor não encontrado!"));
+		return setores;
+	}
+	
+	public Setores findByDescription(String description) {
+		Setores setores = repo.findByDescription(description).orElseThrow(() -> new ObjectNotFoundException("Setor não encontrado!"));
+		return setores;
 	}
 }

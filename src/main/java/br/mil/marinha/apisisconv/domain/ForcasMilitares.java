@@ -47,6 +47,15 @@ public class ForcasMilitares implements Serializable {
 
 	
 
+	public ForcasMilitares(Long id, String description) {
+		super();
+		this.id = id;
+		this.description = description;
+	}
+
+
+
+
 	public Long getId() {
 		return id;
 	}
